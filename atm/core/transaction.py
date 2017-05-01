@@ -40,6 +40,10 @@ def make_transaction(log_obj, account_data, tran_type, amount, **others):
             new_balance = operation_plus(old_balance, interest, amount)
         elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'minus':
             new_balance = operation_minus(old_balance, interest, amount)
+        elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'transfer_in':
+            new_balance = operation_plus(old_balance, interest, amount)
+        elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'transfer_out':
+            new_balance = operation_minus(old_balance, interest, amount)
 
         if new_balance:
             account_data['balance'] = new_balance
@@ -47,5 +51,8 @@ def make_transaction(log_obj, account_data, tran_type, amount, **others):
             log_obj.info("account:%s   action:%s    amount:%s   interest:%s" %
                          (account_data['id'], tran_type, amount, interest))
             return account_data
+        else:
+            return None
     else:
         print("\033[31;1mTransaction type [%s] is not exist!\033[0m" % tran_type)
+        return None

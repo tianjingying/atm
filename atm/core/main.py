@@ -28,6 +28,7 @@ user_data = {
 }
 
 
+@login_required
 def account_info(acc_data):
     print(user_data)
 
@@ -55,6 +56,7 @@ def repay(acc_data):
         print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % repay_amount)
 
 
+@login_required
 def withdraw(acc_data):
     '''
     print current balance and let user do the withdraw action
@@ -76,8 +78,33 @@ def withdraw(acc_data):
         print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % withdraw_amount)
 
 
+@login_required
 def transfer(acc_data):
-    pass
+    '''
+    转账
+    :param acc_data:
+    :return:
+    '''
+    print("acc_data : %s" % acc_data)
+    transfer_data = {}
+    transfer_data["id"] = input("\033[33;1m:请输入转入的账户\033[0m").strip()
+    transfer_data["amount"] = input("\033[33;1m:请输入转账金额\033[0m").strip()
+    if not transfer_data["amount"].isdigit():
+        print('\033[31;1m[%s] is not a valid amount, only accept integer!\033[0m' % transfer_data["amount"])
+    else:
+        transfer_data["amount"] = float(transfer_data["amount"])
+        # 转入的用戶信息
+        account_data_in = accounts.load_current_balance(transfer_data["id"])
+
+        if account_data_in:
+            print("account_data:%s" % account_data_in)
+            new_balance_out = transaction.make_transaction(
+                trans_logger, acc_data["account_data"], 'transfer_out',
+                transfer_data["amount"])
+            if new_balance_out:
+                new_balance_in = transaction.make_transaction(
+                    trans_logger, account_data_in, 'transfer_in',
+                    transfer_data["amount"])
 
 
 def pay_check(acc_data):
