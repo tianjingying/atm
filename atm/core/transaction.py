@@ -1,17 +1,29 @@
 #!_*_coding:utf-8_*_
-#__author__:"Alex Li"
+# __author__:"Alex Li"
 
 from conf import settings
 from core import accounts
 from core import logger
-#transaction logger
 
-def operation_plus(log_obj,account_data,tran_type,amount,**others):
-    if settings.TRANSACTION_TYPE[tran_type]['action'] == 'plus':
-        new_balance = old_balance + amount + interest
-    pass
 
-def make_transaction(log_obj,account_data,tran_type,amount,**others):
+# transaction logger
+
+def operation_plus(old_balance, interest, amount):
+    new_balance = old_balance + amount + interest
+    return new_balance
+
+
+def operation_minus(old_balance, interest, amount):
+    new_balance = old_balance - amount - interest
+    # check credit
+    if new_balance < 0:
+        print('''\033[31;1mYour balance is not enough for this transaction \033[0m''')
+        return None
+    else:
+        return new_balance
+
+
+def make_transaction(log_obj, account_data, tran_type, amount, **others):
     '''
     deal all the user transactions
     :param account_data: user account data
@@ -21,22 +33,19 @@ def make_transaction(log_obj,account_data,tran_type,amount,**others):
     :return:
     '''
     amount = float(amount)
-    if tran_type in  settings.TRANSACTION_TYPE:
-        interest =  amount * settings.TRANSACTION_TYPE[tran_type]['interest']
+    if tran_type in settings.TRANSACTION_TYPE:
+        interest = amount * settings.TRANSACTION_TYPE[tran_type]['interest']
         old_balance = float(account_data['balance'])
         if settings.TRANSACTION_TYPE[tran_type]['action'] == 'plus':
-            new_balance = old_balance + amount + interest
+            new_balance = operation_plus(old_balance, interest, amount)
         elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'minus':
-            new_balance = old_balance - amount - interest
-            #check credit
-            if  new_balance <0:
-                print('''\033[31;1mYour credit [%s] is not enough for this transaction [-%s], your current balance is
-                [%s]''' %(account_data['credit'],(amount + interest), old_balance ))
-                return
-        account_data['balance'] = new_balance
-        accounts.dump_account(account_data) #save the new balance back to file
-        log_obj.info("account:%s   action:%s    amount:%s   interest:%s" %
-                          (account_data['id'], tran_type, amount,interest) )
-        return account_data
+            new_balance = operation_minus(old_balance, interest, amount)
+
+        if new_balance:
+            account_data['balance'] = new_balance
+            accounts.dump_account(account_data)  # save the new balance back to file
+            log_obj.info("account:%s   action:%s    amount:%s   interest:%s" %
+                         (account_data['id'], tran_type, amount, interest))
+            return account_data
     else:
         print("\033[31;1mTransaction type [%s] is not exist!\033[0m" % tran_type)

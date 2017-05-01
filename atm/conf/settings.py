@@ -22,7 +22,8 @@ LOG_TYPES = {
 TRANSACTION_TYPE = {
     'repay':{'action':'plus', 'interest':0.03},
     'withdraw':{'action':'minus', 'interest':0.05},
-    'transfer':{'action':'transfer', 'interest':0.05},
+    'transfer_out':{'action':'transfer_out', 'interest':0.05},  #转出
+    'transfer_in':{'action':'transfer_in', 'interest':0},  #转入
     'consume':{'action':'consume', 'interest':0},
 
 }
