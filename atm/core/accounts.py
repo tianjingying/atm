@@ -1,5 +1,5 @@
 #!_*_coding:utf-8_*_
-#__author__:"Alex Li"
+# __author__:"Alex Li"
 
 import json
 import time
@@ -24,6 +24,8 @@ def load_current_balance(account_id):
     # with open(account_file) as f:
     #     acc_data = json.load(f)
     #     return  acc_data
+
+
 def dump_account(account_data):
     '''
     after updated transaction or account data , dump it back to file db
@@ -31,7 +33,7 @@ def dump_account(account_data):
     :return:
     '''
     db_api = db_handler.db_handler()
-    data = db_api("update accounts where account=%s" % account_data['id'],account_data=account_data)
+    data = db_api("update accounts where account=%s" % account_data['id'], account_data=account_data)
 
     # db_path = db_handler.db_handler(settings.DATABASE)
     # account_file = "%s/%s.json" %(db_path,account_data['id'])

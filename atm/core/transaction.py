@@ -6,7 +6,10 @@ from core import accounts
 from core import logger
 #transaction logger
 
-
+def operation_plus(log_obj,account_data,tran_type,amount,**others):
+    if settings.TRANSACTION_TYPE[tran_type]['action'] == 'plus':
+        new_balance = old_balance + amount + interest
+    pass
 
 def make_transaction(log_obj,account_data,tran_type,amount,**others):
     '''
@@ -19,9 +22,8 @@ def make_transaction(log_obj,account_data,tran_type,amount,**others):
     '''
     amount = float(amount)
     if tran_type in  settings.TRANSACTION_TYPE:
-
         interest =  amount * settings.TRANSACTION_TYPE[tran_type]['interest']
-        old_balance = account_data['balance']
+        old_balance = float(account_data['balance'])
         if settings.TRANSACTION_TYPE[tran_type]['action'] == 'plus':
             new_balance = old_balance + amount + interest
         elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'minus':

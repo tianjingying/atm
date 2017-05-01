@@ -1,5 +1,5 @@
 #!_*_coding:utf-8_*_
-#__author__:"Alex Li"
+# __author__:"Alex Li"
 import os
 from core import db_handler
 from conf import settings
@@ -8,20 +8,20 @@ import json
 import time
 
 
-
 def login_required(func):
     "验证用户是否登录"
 
-    def wrapper(*args,**kwargs):
-        #print('--wrapper--->',args,kwargs)
+    def wrapper(*args, **kwargs):
+        # print('--wrapper--->',args,kwargs)
         if args[0].get('is_authenticated'):
-            return func(*args,**kwargs)
+            return func(*args, **kwargs)
         else:
             exit("User is not authenticated.")
+
     return wrapper
 
 
-def acc_auth(account,password):
+def acc_auth(account, password):
     '''
     account auth func
     :param account: credit account number
@@ -29,24 +29,25 @@ def acc_auth(account,password):
     :return: if passed the authentication , retun the account object, otherwise ,return None
     '''
     db_path = db_handler.db_handler(settings.DATABASE)
-    account_file = "%s/%s.json" %(db_path,account)
+    account_file = "%s/%s.json" % (db_path, account)
     print(account_file)
     if os.path.isfile(account_file):
-        with open(account_file,'r') as f:
+        with open(account_file, 'r') as f:
             account_data = json.load(f)
             if account_data['password'] == password:
                 exp_time_stamp = time.mktime(time.strptime(account_data['expire_date'], "%Y-%m-%d"))
-                if time.time() >exp_time_stamp:
-                    print("\033[31;1mAccount [%s] has expired,please contact the back to get a new card!\033[0m" % account)
-                else: #passed the authentication
-                    return  account_data
+                if time.time() > exp_time_stamp:
+                    print(
+                        "\033[31;1mAccount [%s] has expired,please contact the back to get a new card!\033[0m" % account)
+                else:  # passed the authentication
+                    return account_data
             else:
                 print("\033[31;1mAccount ID or password is incorrect!\033[0m")
     else:
         print("\033[31;1mAccount [%s] does not exist!\033[0m" % account)
 
 
-def acc_auth2(account,password):
+def acc_auth2(account, password):
     '''
     优化版认证接口
     :param account: credit account number
@@ -54,34 +55,63 @@ def acc_auth2(account,password):
     :return: if passed the authentication , retun the account object, otherwise ,return None
 
     '''
-    db_api = db_handler.db_handler()  #连接数据库 file_execute内存地址
-    data = db_api("select * from accounts where account=%s" % account) #执行sql
+    db_api = db_handler.db_handler()  # 连接数据库 file_execute内存地址
+    data = db_api("select * from accounts where account=%s" % account)  # 执行sql
     if data['password'] == password:
         exp_time_stamp = time.mktime(time.strptime(data['expire_date'], "%Y-%m-%d"))
         if time.time() > exp_time_stamp:
+
             print("\033[31;1mAccount [%s] has expired,please contact the back to get a new card!\033[0m" % account)
         else:  # passed the authentication
             return data
     else:
         print("\033[31;1mAccount ID or password is incorrect!\033[0m")
 
-def acc_login(user_data,log_obj):
+
+def acc_login(user_data, log_obj):
     '''
     account login func
     :user_data: user info data , only saves in memory
     :return:
     '''
     retry_count = 0
-    while user_data['is_authenticated'] is not True and retry_count < 3 :
+    while user_data['is_authenticated'] is not True and retry_count < 3:
         account = input("\033[32;1maccount:\033[0m").strip()
         password = input("\033[32;1mpassword:\033[0m").strip()
         auth = acc_auth2(account, password)
-        if auth: #not None means passed the authentication
+        if auth:  # not None means passed the authentication
             user_data['is_authenticated'] = True
             user_data['account_id'] = account
-            #print("welcome")
+            # print("welcome")
+            log_obj.info("account [%s] login " % account)
             return auth
-        retry_count +=1
+        retry_count += 1
     else:
         log_obj.error("account [%s] too many login attempts" % account)
-        exit()
+        return None
+
+
+def create_account(log_obj):
+    user_data = {}
+    user_data["account"] = input("\033[32;1maccount:\033[0m").strip()
+    user_data["password"] = input("\033[32;1mpassword:\033[0m").strip()
+    user_data["balance"] = input("\033[32;1mbalance:\033[0m").strip()
+    if not user_data["balance"].isdigit():
+        log_obj.error("input illegal balance")
+        return None
+    user_data["credit"] = input("\033[32;1mcredit:\033[0m").strip()
+    if not user_data["balance"].isdigit():
+        log_obj.error("input illegal credit")
+        return None
+    # 登记日期
+    user_data["enroll_date"] = time.strftime("%Y-%m-%d", time.localtime())
+    expire_time = time.time() + settings.EXPIRE_TIME * 3600 * 24 * 365
+    # 有效期
+    user_data["expire_date"] = time.strftime("%Y-%m-%d", time.gmtime(expire_time))
+    user_data["id"] = user_data["account"]
+
+    print("user_data: %s" % user_data)
+    db_api = db_handler.db_handler()  # 连接数据库 file_execute内存地址
+    data = db_api("create account", **user_data)  # 执行sql
+
+    pass

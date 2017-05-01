@@ -22,7 +22,9 @@ LOG_TYPES = {
 TRANSACTION_TYPE = {
     'repay':{'action':'plus', 'interest':0.03},
     'withdraw':{'action':'minus', 'interest':0.05},
-    'transfer':{'action':'minus', 'interest':0.05},
-    'consume':{'action':'minus', 'interest':0},
+    'transfer':{'action':'transfer', 'interest':0.05},
+    'consume':{'action':'consume', 'interest':0},
 
 }
+
+EXPIRE_TIME = 10   #有效期  10年

@@ -1,0 +1,5 @@
+2017-04-28 21:37:32,588 - transaction - INFO - account:1234   action:repay    amount:200.0   interest:6.0
+2017-04-28 21:54:23,930 - transaction - INFO - account:1234   action:repay    amount:100.0   interest:3.0
+2017-04-30 22:49:23,476 - transaction - INFO - account:tian   action:repay    amount:200.0   interest:6.0
+2017-04-30 22:51:12,135 - transaction - INFO - account:tian   action:repay    amount:100.0   interest:3.0
+2017-04-30 22:52:02,592 - transaction - INFO - account:tian   action:withdraw    amount:330.0   interest:16.5
