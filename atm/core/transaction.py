@@ -44,6 +44,8 @@ def make_transaction(log_obj, account_data, tran_type, amount, **others):
             new_balance = operation_plus(old_balance, interest, amount)
         elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'transfer_out':
             new_balance = operation_minus(old_balance, interest, amount)
+        elif settings.TRANSACTION_TYPE[tran_type]['action'] == 'consume':
+            new_balance = operation_minus(old_balance, interest, amount)
 
         if new_balance:
             account_data['balance'] = new_balance

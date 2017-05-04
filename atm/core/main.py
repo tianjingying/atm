@@ -30,7 +30,9 @@ user_data = {
 
 @login_required
 def account_info(acc_data):
-    print(user_data)
+    # print(user_data)
+    account_data = accounts.load_current_balance(acc_data['account_id'])
+    print(account_data)
 
 
 @login_required
@@ -123,8 +125,8 @@ def interactive(acc_data):
     menu = u'''
     ------- Oldboy Bank ---------
     \033[32;1m1.  账户信息
-    2.  还款(功能已实现)
-    3.  取款(功能已实现)
+    2.  还款
+    3.  取款
     4.  转账
     5.  账单
     6.  退出
@@ -160,6 +162,22 @@ def run():
         user_data['account_data'] = acc_data
         interactive(user_data)
 
+def consume(amount):
+    '''
+    ATM 提供的消费接口
+    :return:
+    '''
+    acc_data = auth.acc_login(user_data, access_logger)
+    print("acc_data: %s"%acc_data)
+    if user_data['is_authenticated']:
+        # user_data['account_data'] = acc_data
+        account_data = accounts.load_current_balance(acc_data['id'])
+        # print("")
+        new_balance_out = transaction.make_transaction(
+            trans_logger, account_data, 'consume',
+            amount)
+        print("new_balance_out: %s"%new_balance_out)
+        return new_balance_out
 
 def create_account():
     '''

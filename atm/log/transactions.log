@@ -8,3 +8,13 @@
 2017-05-01 14:30:56,376 - transaction - INFO - account:1234   action:transfer_in    amount:3000.0   interest:0.0
 2017-05-01 14:41:58,748 - transaction - INFO - account:tian   action:transfer_out    amount:3872.0   interest:193.60000000000002
 2017-05-01 14:41:58,750 - transaction - INFO - account:1234   action:transfer_in    amount:3872.0   interest:0.0
+2017-05-01 14:48:08,697 - transaction - INFO - account:tian   action:repay    amount:200.0   interest:6.0
+2017-05-01 14:48:44,321 - transaction - INFO - account:tian   action:transfer_out    amount:200.0   interest:10.0
+2017-05-01 14:48:44,325 - transaction - INFO - account:1234   action:transfer_in    amount:200.0   interest:0.0
+2017-05-03 23:29:09,312 - transaction - INFO - account:tian   action:consume    amount:6230.0   interest:0.0
+2017-05-03 23:29:09,312 - transaction - INFO - account:tian   action:consume    amount:6230.0   interest:0.0
+2017-05-03 23:44:31,815 - transaction - INFO - account:tian   action:consume    amount:6250.0   interest:0.0
+2017-05-03 23:44:31,815 - transaction - INFO - account:tian   action:consume    amount:6250.0   interest:0.0
+2017-05-04 21:30:12,868 - transaction - INFO - account:tian   action:repay    amount:10000.0   interest:300.0
+2017-05-04 21:32:28,609 - transaction - INFO - account:tian   action:repay    amount:200.0   interest:6.0
+2017-05-04 21:33:19,684 - transaction - INFO - account:tian   action:repay    amount:1000.0   interest:30.0
