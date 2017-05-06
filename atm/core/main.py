@@ -212,15 +212,9 @@ def manage_run():
     menu = u'''
         ------- 管理员 ---------
         \033[32;1m 1.  添加账户
-        2.  修改用户额度
-        3.  冻结账户
-        4.  退出
         \033[0m'''
     menu_dic = {
         '1': create_account,
-        # '2': update_balance,
-        # '3': frozen_account,
-        # '4': logout,
     }
     exit_flag = False
     while not exit_flag:
@@ -228,5 +222,4 @@ def manage_run():
         user_option = input(">>:").strip()
         if user_option in menu_dic:
             menu_dic[user_option]()
-            # while(True):
-            #     print(menu)
+
