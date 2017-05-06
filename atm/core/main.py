@@ -141,7 +141,7 @@ def interactive(acc_data):
     2.  还款
     3.  取款
     4.  转账
-    5.  账单
+    5.  查看交易账单
     6.  退出
     \033[0m'''
     menu_dic = {
