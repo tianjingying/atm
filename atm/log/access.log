@@ -39,3 +39,12 @@ F:\51CTO_college\homework\homework6\atm\atm\log\access.log
 2017-05-04 21:30:01,963 - access - INFO - account [tian] login 
 2017-05-04 21:32:10,302 - access - INFO - account [tian] login 
 2017-05-04 21:32:56,561 - access - INFO - account [tian] login 
+2017-05-04 23:17:36,105 - access - INFO - account [tian] login 
+2017-05-04 23:22:18,216 - access - INFO - account [tian] login 
+2017-05-04 23:23:40,095 - access - INFO - account [tian] login 
+2017-05-04 23:23:43,736 - access - INFO - account [tian] logout 
+2017-05-06 09:46:41,549 - access - INFO - account [tian] login 
+2017-05-06 09:47:34,146 - access - INFO - account [tian] login 
+2017-05-06 11:12:37,722 - access - INFO - account [tian] login 
+2017-05-06 11:13:06,421 - access - INFO - account [tian] login 
+2017-05-06 11:13:31,181 - access - INFO - account [tian] login 

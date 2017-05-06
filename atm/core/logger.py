@@ -42,3 +42,6 @@ def logger(log_type):
     logger.error('error message')
     logger.critical('critical message')'''
 
+def get_log_file(log_type):
+    log_file = "%s/log/%s" % (settings.BASE_DIR, settings.LOG_TYPES[log_type])
+    return log_file

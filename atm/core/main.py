@@ -110,11 +110,24 @@ def transfer(acc_data):
 
 
 def pay_check(acc_data):
-    pass
+    '''
+    查看交易记录
+    :param acc_data:
+    :return:
+    '''
+    log_file = logger.get_log_file('transaction')
+    print("acc_data:%s" % acc_data)
+    with open(log_file, "r", encoding="utf-8") as f:
+        for line in f:
+            if line.find(acc_data["account_id"]) >= 0:
+                print(line)
 
 
 def logout(acc_data):
-    pass
+    acc_data["is_authenticated"] = False
+    print("acc_data: %s" % acc_data)
+    print("\033[33;1m:已经退出\033[0m")
+    access_logger.info("account [%s] logout " % acc_data["account_id"])
 
 
 def interactive(acc_data):
@@ -162,13 +175,14 @@ def run():
         user_data['account_data'] = acc_data
         interactive(user_data)
 
+
 def consume(amount):
     '''
     ATM 提供的消费接口
     :return:
     '''
     acc_data = auth.acc_login(user_data, access_logger)
-    print("acc_data: %s"%acc_data)
+    print("acc_data: %s" % acc_data)
     if user_data['is_authenticated']:
         # user_data['account_data'] = acc_data
         account_data = accounts.load_current_balance(acc_data['id'])
@@ -176,8 +190,9 @@ def consume(amount):
         new_balance_out = transaction.make_transaction(
             trans_logger, account_data, 'consume',
             amount)
-        print("new_balance_out: %s"%new_balance_out)
+        print("new_balance_out: %s" % new_balance_out)
         return new_balance_out
+
 
 def create_account():
     '''
