@@ -1,5 +1,4 @@
 #!_*_coding:utf-8_*_
-# __author__:"Alex Li"
 import os
 from core import db_handler
 from conf import settings

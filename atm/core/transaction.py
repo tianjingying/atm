@@ -1,9 +1,7 @@
 #!_*_coding:utf-8_*_
-# __author__:"Alex Li"
 
 from conf import settings
 from core import accounts
-from core import logger
 
 
 # transaction logger

@@ -1,5 +1,4 @@
 #!_*_coding:utf-8_*_
-# __author__:"Alex Li"
 
 '''
 main program handle module , handle all the user interaction stuff
